@@ -4,6 +4,7 @@ const paddle1 = new Paddle();
 const paddle2 = new Paddle();
 const p1Controls = new PaddleControls();
 const p2Controls = new PaddleControls();
+const physics = new PhysicsManager(canvas.width, canvas.height);
 
 function setup() {
   const centerX = canvas.width / 2;
@@ -26,11 +27,11 @@ function setup() {
   paddle2.width = paddleW;
   paddle2.height = paddleH;
 
-  p1Controls.downKeyCode = 83; // down arrow
-  p1Controls.upKeyCode = 87; // up arrow
+  p1Controls.downKeyCode = 83; // s
+  p1Controls.upKeyCode = 87; // w
 
-  p2Controls.downKeyCode = 40; // s
-  p2Controls.upKeyCode = 38; // w
+  p2Controls.downKeyCode = 40; // down arrow
+  p2Controls.upKeyCode = 38; // up arrow
 }
 
 window.onkeydown = function(e) {
@@ -49,8 +50,10 @@ function main() {
   canvas.rect(paddle1);
   canvas.rect(paddle2);
   ball.updatePosition();
-  p1Controls.informPaddle(paddle1);
-  p2Controls.informPaddle(paddle2);
+  p1Controls.notifyPaddle(paddle1);
+  p2Controls.notifyPaddle(paddle2);
+  physics.checkBallFloorCiel(ball);
+  physics.checkPaddleFloorCiel([paddle1, paddle2])
   paddle1.updatePosition();
   paddle2.updatePosition();
   requestAnimationFrame(main);
@@ -58,6 +61,3 @@ function main() {
 
 setup();
 main();
-
-
-

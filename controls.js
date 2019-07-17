@@ -29,7 +29,7 @@ class PaddleControls {
         break;
     }
   }
-  informPaddle(paddle) {
+  notifyPaddle(paddle) {
     if (this.up && !this.down) paddle.dy = -4;
     else if (this.down && !this.up) paddle.dy = 4;
     else paddle.dy = 0;
