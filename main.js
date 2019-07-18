@@ -1,11 +1,11 @@
-const canvas = new Canvas('canvas', 900, 600);
+const game = new Game();
+const canvas = new Canvas('canvas', 700, 500);
 const ball = new Ball();
 const paddle1 = new Paddle();
 const paddle2 = new Paddle();
 const p1Controls = new PaddleControls();
 const p2Controls = new PaddleControls();
 const physics = new PhysicsManager(canvas.width, canvas.height);
-let score = 0;
 
 function setup() {
   const centerX = canvas.width / 2;
@@ -16,15 +16,15 @@ function setup() {
   ball.x = centerX;
   ball.y = centerY;
   ball.r = 10;
-  ball.dx = Math.random() > 0.5 ? 6 : -6;
+  ball.dx = game.ballDx;
 
   paddle1.x = 0
-  paddle1.y = centerY - (paddleH / 2);
+  paddle1.y = centerY - (paddleH / 3);
   paddle1.width = paddleW;
   paddle1.height = paddleH;
 
   paddle2.x = canvas.width - paddleW;
-  paddle2.y = centerY - (paddleH / 2);
+  paddle2.y = centerY - (paddleH / 1.5);
   paddle2.width = paddleW;
   paddle2.height = paddleH;
 
@@ -47,7 +47,7 @@ window.onkeyup = function(e) {
 function main() {
   canvas.clear();
   canvas.fill();
-  canvas.showScore(score);
+  canvas.showScore(game.score);
   canvas.arc(ball);
   canvas.rect(paddle1);
   canvas.rect(paddle2);
@@ -55,16 +55,15 @@ function main() {
   p2Controls.notifyPaddle(paddle2);
   physics.checkBallFloorCiel(ball);
   physics.checkPaddleFloorCiel([paddle1, paddle2]);
-  const ballHitP1 = physics.checkBallPaddle(ball, paddle1, true);
-  const ballHitp2 = physics.checkBallPaddle(ball, paddle2);
+  const ballHitP1 = physics.checkBallPaddle(game, ball, paddle1, true);
+  const ballHitp2 = physics.checkBallPaddle(game, ball, paddle2);
   ball.updatePosition();
   paddle1.updatePosition();
   paddle2.updatePosition();
   if (!physics.ballHitWall(ball)) {
     if (ballHitP1 || ballHitp2) {
-      score += 1;
+      game.incrementScore();
     }
-    
     requestAnimationFrame(main);
   } else {
     canvas.gameOver();

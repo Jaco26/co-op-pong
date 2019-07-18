@@ -28,14 +28,15 @@ class PhysicsManager {
       ball.dy = -ball.dy;
     }
   }
-  checkBallPaddle(ball, paddle, isLeftPaddle) {
+  checkBallPaddle(game, ball, paddle, isLeftPaddle) {
     if (
       ball.y < paddle.y + paddle.height
       && ball.y > paddle.y
       && this._ballPaddleCheckX(ball, paddle, isLeftPaddle)
     ) {
       ball.dy = this._ballPaddleDyMod(ball, paddle);
-      ball.dx = -ball.dx;
+      game.ballDx = -game.ballDx;
+      ball.dx = game.ballDx;
       return true;
     }
     return false;
