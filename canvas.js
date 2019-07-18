@@ -5,6 +5,7 @@ class Canvas {
     this.canvas = document.querySelector(selector);
     this.width = this.canvas.width = width;
     this.height = this.canvas.height = height;
+    /** @type {CanvasRenderingContext2D} */
     this.ctx = this.canvas.getContext('2d');
   }
   clear() {
@@ -13,6 +14,15 @@ class Canvas {
   fill() {
     this.ctx.fillStyle = this.fillStyle;
     this.ctx.fillRect(0, 0, this.width, this.height);
+  }
+  gameOver() {
+    this.ctx.strokeStyle = 'red';
+    this.ctx.font = "24px Georgia"
+    this.ctx.strokeText(
+      "Game Over", 
+      this.width / 2 - 80,
+      this.height / 2
+    );
   }
   draw(config, callback) {
     this.ctx.beginPath();

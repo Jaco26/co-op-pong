@@ -15,7 +15,7 @@ function setup() {
   ball.x = centerX;
   ball.y = centerY;
   ball.r = 10;
-  ball.dx = Math.random() > 0.5 ? 2 : -2;
+  ball.dx = Math.random() > 0.5 ? 4 : -4;
 
   paddle1.x = 0
   paddle1.y = centerY - (paddleH / 2);
@@ -53,10 +53,16 @@ function main() {
   p1Controls.notifyPaddle(paddle1);
   p2Controls.notifyPaddle(paddle2);
   physics.checkBallFloorCiel(ball);
-  physics.checkPaddleFloorCiel([paddle1, paddle2])
+  physics.checkPaddleFloorCiel([paddle1, paddle2]);
+  physics.checkBallPaddle(ball, paddle1, true);
+  physics.checkBallPaddle(ball, paddle2);
   paddle1.updatePosition();
   paddle2.updatePosition();
-  requestAnimationFrame(main);
+  if (!physics.ballHitWall(ball)) {
+    requestAnimationFrame(main);
+  } else {
+    canvas.gameOver();
+  }
 }
 
 setup();
