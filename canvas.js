@@ -2,6 +2,7 @@
 class Canvas {
   constructor(selector, width, height) {
     this.fillStyle = '#abcd';
+    this.font = "24px Georia";
     this.canvas = document.querySelector(selector);
     this.width = this.canvas.width = width;
     this.height = this.canvas.height = height;
@@ -15,12 +16,17 @@ class Canvas {
     this.ctx.fillStyle = this.fillStyle;
     this.ctx.fillRect(0, 0, this.width, this.height);
   }
+  showScore(score) {
+    this.ctx.font = this.font;
+    this.ctx.fillStyle = 'black';
+    this.ctx.fillText('Score: ' + score, this.width / 2 - 40, 25)
+  }
   gameOver() {
     this.ctx.strokeStyle = 'red';
-    this.ctx.font = "24px Georgia"
+    this.ctx.font = this.font;
     this.ctx.strokeText(
-      "Game Over", 
-      this.width / 2 - 80,
+      'Game Over', 
+      this.width / 2 - 60,
       this.height / 2
     );
   }

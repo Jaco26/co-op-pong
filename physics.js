@@ -36,7 +36,9 @@ class PhysicsManager {
     ) {
       ball.dy = this._ballPaddleDyMod(ball, paddle);
       ball.dx = -ball.dx;
+      return true;
     }
+    return false;
   }
   ballHitWall(ball) {
     if (ball.x + ball.r > this.maxX || ball.x - ball.r < 0) {
