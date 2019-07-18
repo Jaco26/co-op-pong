@@ -3,10 +3,14 @@ class PhysicsManager {
     this.maxX = maxX;
     this.maxY = maxY;
   }
-  _paddleCheckX(ball, paddle, isLeftPaddle) {
+  _ballPaddleCheckX(ball, paddle, isLeftPaddle) {
     return isLeftPaddle
       ? ball.x - ball.r < paddle.x + paddle.width
       : ball.x + ball.r > paddle.x;
+  }
+  _ballPaddleDyMod(ball, paddle) {
+    const paddleCenter = paddle.y + paddle.height / 2;
+    return (ball.y - paddleCenter) / 10;
   }
   checkPaddleFloorCiel(paddles) {
     paddles.forEach(paddle => {
@@ -28,8 +32,9 @@ class PhysicsManager {
     if (
       ball.y < paddle.y + paddle.height
       && ball.y > paddle.y
-      && this._paddleCheckX(ball, paddle, isLeftPaddle)
+      && this._ballPaddleCheckX(ball, paddle, isLeftPaddle)
     ) {
+      ball.dy = this._ballPaddleDyMod(ball, paddle);
       ball.dx = -ball.dx;
     }
   }

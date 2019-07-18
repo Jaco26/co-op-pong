@@ -15,7 +15,7 @@ function setup() {
   ball.x = centerX;
   ball.y = centerY;
   ball.r = 10;
-  ball.dx = Math.random() > 0.5 ? 4 : -4;
+  ball.dx = Math.random() > 0.5 ? 6 : -6;
 
   paddle1.x = 0
   paddle1.y = centerY - (paddleH / 2);
@@ -49,13 +49,13 @@ function main() {
   canvas.arc(ball);
   canvas.rect(paddle1);
   canvas.rect(paddle2);
-  ball.updatePosition();
   p1Controls.notifyPaddle(paddle1);
   p2Controls.notifyPaddle(paddle2);
   physics.checkBallFloorCiel(ball);
   physics.checkPaddleFloorCiel([paddle1, paddle2]);
   physics.checkBallPaddle(ball, paddle1, true);
   physics.checkBallPaddle(ball, paddle2);
+  ball.updatePosition();
   paddle1.updatePosition();
   paddle2.updatePosition();
   if (!physics.ballHitWall(ball)) {
