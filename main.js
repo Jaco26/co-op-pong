@@ -1,5 +1,5 @@
 const game = new Game();
-const canvas = new Canvas('canvas', 700, 500);
+const canvas = new Canvas('canvas', 900, 600);
 const ball = new Ball();
 const paddle1 = new Paddle();
 const paddle2 = new Paddle();
@@ -61,7 +61,9 @@ function main() {
   paddle1.updatePosition();
   paddle2.updatePosition();
   if (!physics.ballHitWall(ball)) {
+    ball.decrementpaddleImmune();
     if (ballHitP1 || ballHitp2) {
+      ball.setpaddleImmune();
       game.incrementScore();
     }
     requestAnimationFrame(main);

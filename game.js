@@ -5,8 +5,10 @@ class Game {
   }
   incrementScore() {
     this.score += 1;
-    if (this.score && this.score % 10 === 0) {
-      this.ballDx += 1;
+    if (this.score % 10 === 0) {
+      this.ballDx > 0
+        ? this.ballDx += 1
+        : this.ballDx -= 1;
     }
   }
 }

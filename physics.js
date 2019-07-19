@@ -30,7 +30,8 @@ class PhysicsManager {
   }
   checkBallPaddle(game, ball, paddle, isLeftPaddle) {
     if (
-      ball.y < paddle.y + paddle.height
+      !ball.paddleImmune
+      && ball.y < paddle.y + paddle.height
       && ball.y > paddle.y
       && this._ballPaddleCheckX(ball, paddle, isLeftPaddle)
     ) {
