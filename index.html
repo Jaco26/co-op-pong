@@ -11,7 +11,18 @@
     overflow: hidden;
     background-color: beige;
   }
-  main {
+  button {
+    font-size: 1rem;
+    margin: 0 1rem;
+  }
+  .hover-pointer:hover {
+    cursor: pointer;
+  }
+  #toolbar {
+    display: flex;
+    justify-content: center;
+  }
+  #canvas-wrapper {
     display: flex;
     height: 100%;
     justify-content: center;
@@ -20,9 +31,13 @@
   </style>
 </head>
 <body>
-  <main>
+  <section id="toolbar">
+    <button class="hover-pointer" id="new-game">New Game</button>
+    <button disabled id="pause">Pause</button>
+  </section>
+  <section id="canvas-wrapper">
     <canvas></canvas>
-  </main>
+  </section>
   <script src="canvas.js"></script>
   <script src="ball.js"></script>
   <script src="paddle.js"></script>

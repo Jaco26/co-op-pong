@@ -7,16 +7,36 @@ const p1Controls = new PaddleControls();
 const p2Controls = new PaddleControls();
 const physics = new PhysicsManager(canvas.width, canvas.height);
 
+let animationFrameId;
+
+function pause() {
+  cancelAnimationFrame(animationFrameId);
+}
+
+function paint() {
+  canvas.clear();
+  canvas.fill();
+  canvas.showScore(game.score);
+  canvas.arc(ball);
+  canvas.rect(paddle1);
+  canvas.rect(paddle2);
+}
+
 function setup() {
   const centerX = canvas.width / 2;
   const centerY = canvas.height / 2;
   const paddleW = 15;
   const paddleH = 80;
 
+  game.score = 0;
+  game.ballDx = Math.random() > 0.5 ? 5 : -5;
+  game.gameOn = false;
+
   ball.x = centerX;
   ball.y = centerY;
   ball.r = 10;
   ball.dx = game.ballDx;
+  ball.dy = 0;
 
   paddle1.x = 0
   paddle1.y = centerY - (paddleH / 3);
@@ -35,22 +55,8 @@ function setup() {
   p2Controls.upKeyCode = 38; // up arrow
 }
 
-window.onkeydown = function(e) {
-  p1Controls.keydown(e.keyCode);
-  p2Controls.keydown(e.keyCode);
-}
-window.onkeyup = function(e) {
-  p1Controls.keyup(e.keyCode);
-  p2Controls.keyup(e.keyCode);
-}
-
 function main() {
-  canvas.clear();
-  canvas.fill();
-  canvas.showScore(game.score);
-  canvas.arc(ball);
-  canvas.rect(paddle1);
-  canvas.rect(paddle2);
+  paint();
   p1Controls.notifyPaddle(paddle1);
   p2Controls.notifyPaddle(paddle2);
   physics.checkBallFloorCiel(ball);
@@ -66,11 +72,50 @@ function main() {
       ball.setpaddleImmune();
       game.incrementScore();
     }
-    requestAnimationFrame(main);
+    animationFrameId = requestAnimationFrame(main);
   } else {
     canvas.gameOver();
   }
 }
 
-setup();
-main();
+const newGameButton = document.querySelector('#new-game');
+const pauseButton = document.querySelector('#pause');
+
+newGameButton.onclick = function() {
+  pauseButton.removeAttribute('disabled');
+  pauseButton.setAttribute('class', 'hover-pointer');
+  pauseButton.textContent = 'Pause';
+  pause();
+  setup();
+  main();
+  game.gameOn = true;
+}
+
+pauseButton.onclick = function() {
+  if (game.gameOn) {
+    pause();
+    game.gameOn = false;
+    this.textContent = 'Resume';
+  } else {
+    main();
+    game.gameOn = true;
+    this.textContent = 'Pause';
+  }
+}
+
+window.onload = function() {
+  setup();
+  paint();
+}
+
+window.onkeydown = function(e) {
+  p1Controls.keydown(e.keyCode);
+  p2Controls.keydown(e.keyCode);
+}
+
+window.onkeyup = function(e) {
+  p1Controls.keyup(e.keyCode);
+  p2Controls.keyup(e.keyCode);
+}
+
+

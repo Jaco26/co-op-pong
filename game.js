@@ -1,7 +1,8 @@
 class Game {
   constructor() {
     this.score = 0;
-    this.ballDx = Math.random() > 0.5 ? 5 : -5;
+    this.ballDx = 0;
+    this.gameOn = false;
   }
   incrementScore() {
     this.score += 1;
