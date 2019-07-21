@@ -39,6 +39,9 @@ class Canvas {
     this.ctx.stroke();
     this.ctx.closePath();
   }
+  blackhole() {
+
+  }
   arc(config) {
     this.draw(config, () => {
       this.ctx.arc(config.x, config.y, config.r, 0, Math.PI * 2);
