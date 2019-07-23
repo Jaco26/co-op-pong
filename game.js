@@ -3,7 +3,8 @@ class Game {
     this.score = 0;
     this.ballDx = 0;
     this.gameOn = false;
-    this.blackHoleCount = 0;
+    /** @type {BlackHole[]} */
+    this.blackHoles = [];
   }
   incrementScore() {
     this.score += 1;
@@ -17,7 +18,17 @@ class Game {
     const x = maxX / 2;
     const radius = 30;
     const yPadding = (maxY * 0.1) + radius;
-    const y = Math.floor(Math.random() * (maxX - yPadding - (yPadding * 2)) + yPadding);
-    return new BlackHole(x, y, radius);
+    const y = Math.floor(Math.random() * (maxY - yPadding - (yPadding * 2)) + yPadding);
+    this.blackHoles.push(new BlackHole(x, y, radius));
+  }
+  /** @param {Canvas} canvas */
+  drawBlackHoles(canvas) {
+    this.blackHoles.forEach(bh => {
+      canvas.arc({
+        ...bh,
+        fillStyle: 'black',
+        strokeStyle: 'red',
+      });
+    });
   }
 }

@@ -20,6 +20,7 @@ function paint() {
   canvas.arc(ball);
   canvas.rect(paddle1);
   canvas.rect(paddle2);
+  game.drawBlackHoles(canvas);
 }
 
 function setup() {
@@ -31,6 +32,8 @@ function setup() {
   game.score = 0;
   game.ballDx = Math.random() > 0.5 ? 5 : -5;
   game.gameOn = false;
+
+  game.createBlackHole(canvas.width, canvas.height);
 
   ball.x = centerX;
   ball.y = centerY;
@@ -117,5 +120,3 @@ window.onkeyup = function(e) {
   p1Controls.keyup(e.keyCode);
   p2Controls.keyup(e.keyCode);
 }
-
-
