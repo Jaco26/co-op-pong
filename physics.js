@@ -2,6 +2,10 @@ class PhysicsManager {
   constructor(maxX, maxY) {
     this.maxX = maxX;
     this.maxY = maxY;
+    this.centerX = this.maxX / 2;
+    this.centerY = this.maxY / 2;
+    this.leftCenter = this.centerX - this.maxX * 0.2;
+    this.rightCenter = this.centerX + this.maxX * 0.2;
   }
   _ballPaddleCheckX(ball, paddle, isLeftPaddle) {
     return isLeftPaddle
@@ -43,8 +47,10 @@ class PhysicsManager {
     return false;
   }
   ballHitWall(ball) {
-    if (ball.x + ball.r > this.maxX || ball.x - ball.r < 0) {
-      return true;
-    }
+    return ball.x + ball.r > this.maxX || ball.x - ball.r < 0;
+  }
+  ballPassedMiddle(ballX1, ballX2) {
+    return (ballX1 > this.leftCenter && ballX2 <= this.leftCenter)
+      || (ballX1 < this.rightCenter && ballX2 >= this.rightCenter);
   }
 }

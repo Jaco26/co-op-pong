@@ -1,11 +1,14 @@
-const game = new Game();
-const canvas = new Canvas('canvas', 900, 600);
+const W = 900;
+const H = 600;
+
+const canvas = new Canvas('canvas', W, H);
+const game = new Game(W, H);
 const ball = new Ball();
 const paddle1 = new Paddle();
 const paddle2 = new Paddle();
 const p1Controls = new PaddleControls();
 const p2Controls = new PaddleControls();
-const physics = new PhysicsManager(canvas.width, canvas.height);
+const physics = new PhysicsManager(W, H);
 
 let animationFrameId;
 
@@ -32,8 +35,6 @@ function setup() {
   game.score = 0;
   game.ballDx = Math.random() > 0.5 ? 5 : -5;
   game.gameOn = false;
-
-  game.createBlackHole(canvas.width, canvas.height);
 
   ball.x = centerX;
   ball.y = centerY;
@@ -66,9 +67,15 @@ function main() {
   physics.checkPaddleFloorCiel([paddle1, paddle2]);
   const ballHitP1 = physics.checkBallPaddle(game, ball, paddle1, true);
   const ballHitp2 = physics.checkBallPaddle(game, ball, paddle2);
+  const ballX1 = ball.x;
   ball.updatePosition();
+  const ballX2 = ball.x;
   paddle1.updatePosition();
   paddle2.updatePosition();
+  const ballPassedMiddle = physics.ballPassedMiddle(ballX1, ballX2);
+  if (ballPassedMiddle) {
+    game.maybeBlackHole();
+  }
   if (!physics.ballHitWall(ball)) {
     ball.decrementpaddleImmune();
     if (ballHitP1 || ballHitp2) {
