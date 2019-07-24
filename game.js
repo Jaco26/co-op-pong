@@ -28,9 +28,12 @@ class Game {
   drawBlackHoles(canvas) {
     if (this.blackHoles.length) {
       this.blackHoles.forEach(bh => {
+        const grd = canvas.ctx.createRadialGradient(bh.x, bh.y, bh.r, bh.x + bh.r, bh.y + bh.r, bh.r * 2);
+        grd.addColorStop(0, 'black');
+        grd.addColorStop(1, 'gray')
         canvas.arc({
           ...bh,
-          fillStyle: 'black',
+          fillStyle: grd,
           strokeStyle: 'red',
         });
       });
