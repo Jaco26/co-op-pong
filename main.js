@@ -23,7 +23,7 @@ function paint() {
   canvas.arc(ball);
   canvas.rect(paddle1);
   canvas.rect(paddle2);
-  game.drawBlackHoles(canvas);
+  // game.drawBlackHoles(canvas);
 }
 
 function setup() {
@@ -41,6 +41,9 @@ function setup() {
   ball.r = 10;
   ball.dx = game.ballDx;
   ball.dy = 0;
+
+  // game._createBlackHole();
+  // game.drawBlackHoles(canvas);
 
   paddle1.x = 0
   paddle1.y = centerY - (paddleH / 3);
@@ -67,19 +70,17 @@ function main() {
   physics.checkPaddleFloorCiel([paddle1, paddle2]);
   const ballHitP1 = physics.checkBallPaddle(game, ball, paddle1, true);
   const ballHitp2 = physics.checkBallPaddle(game, ball, paddle2);
-  const ballX1 = ball.x;
+  // const ballX1 = ball.x;
   ball.updatePosition();
-  const ballX2 = ball.x;
+  // const ballX2 = ball.x;
   paddle1.updatePosition();
   paddle2.updatePosition();
-  const ballPassedMiddle = physics.ballPassedMiddle(ballX1, ballX2);
-  if (ballPassedMiddle) {
-    game.maybeBlackHole();
-  }
+  // const ballPassedMiddle = physics.ballPassedMiddle(ballX1, ballX2);
+  // if (ballPassedMiddle) {
+  //   game.maybeBlackHole();
+  // }
   if (!physics.ballHitWall(ball)) {
-    ball.decrementpaddleImmune();
     if (ballHitP1 || ballHitp2) {
-      ball.setpaddleImmune();
       game.incrementScore();
     }
     animationFrameId = requestAnimationFrame(main);

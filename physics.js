@@ -28,20 +28,24 @@ class PhysicsManager {
     });
   }
   checkBallFloorCiel(ball) {
-    if (ball.y + ball.r > this.maxY || ball.y - ball.r < 0) {
+    if (ball.y + ball.r > this.maxY) {
+      ball.y = this.maxY - (ball.r + 1); // ensure that ball clears floor to prevent sticking
+      ball.dy = -ball.dy;
+    } else if (ball.y - ball.r < 0) {
+      ball.y = 0 + (ball.r + 1);
       ball.dy = -ball.dy;
     }
   }
   checkBallPaddle(game, ball, paddle, isLeftPaddle) {
     if (
-      !ball.paddleImmune
-      && ball.y < paddle.y + paddle.height
+      ball.y < paddle.y + paddle.height
       && ball.y > paddle.y
       && this._ballPaddleCheckX(ball, paddle, isLeftPaddle)
     ) {
       ball.dy = this._ballPaddleDyMod(ball, paddle);
       game.ballDx = -game.ballDx;
       ball.dx = game.ballDx;
+      ball.x = ball.dx + (isLeftPaddle ? paddle.width : paddle.x) // ensure ball clears paddle to prevent sticking
       return true;
     }
     return false;
